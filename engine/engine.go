@@ -2,6 +2,7 @@ package engine
 
 import (
 	"fmt"
+	"path"
 	"runtime/debug"
 	"strings"
 	"sync/atomic"
@@ -53,7 +54,8 @@ func NewEngine() *Engine {
 	// 启用AOF日志
 	if conf.GlobalConfig.AppendOnly {
 		// 创建*AOF对象
-		aof, err := aof.NewAOF(conf.GlobalConfig.Dir+"/"+conf.GlobalConfig.AppendFilename, engine, true, conf.GlobalConfig.AppendFsync)
+		aofFileName := path.Join(conf.GlobalConfig.Dir, conf.GlobalConfig.AppendFilename)
+		aof, err := aof.NewAOF(aofFileName, engine, true, conf.GlobalConfig.AppendFsync)
 		if err != nil {
 			panic(err)
 		}
